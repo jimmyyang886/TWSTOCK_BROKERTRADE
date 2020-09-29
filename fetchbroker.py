@@ -7,7 +7,7 @@ from preprocessBatch import preprocessing
 from utilities import one_hot_decoding
 import os
 import random
-import datetime
+from datetime import datetime, timedelta
 
 from keras.models import load_model
 global model
@@ -105,8 +105,12 @@ class fetchbroker(object):
             
             elif 'HyperLink_DownloadCSV' in resp.text:
                 resp=ss.get("https://bsr.twse.com.tw/bshtm/bsContent.aspx", headers=csvheaders)
+                
+                if datetime.today().hour > 16: #16:00 update new data
+                    filename=self.csvpath+'/'+self.code+'_'+datetime.today().date()+'.csv'
+                else:
+                    filename=self.csvpath+'/'+self.code+'_'+(datetime.today().date()- timedelta(days=1)).isoformat()+'.csv'
 
-                filename=self.csvpath+'/'+self.code+'_'+str(datetime.date.today())+'.csv'
                 with open(filename, 'w', encoding='utf8') as f:
                     f.write(resp.text)
 
