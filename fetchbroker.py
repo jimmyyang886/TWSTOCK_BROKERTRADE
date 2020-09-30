@@ -107,7 +107,7 @@ class fetchbroker(object):
                 resp=ss.get("https://bsr.twse.com.tw/bshtm/bsContent.aspx", headers=csvheaders)
                 
                 if datetime.today().hour > 16: #16:00 update new data
-                    filename=self.csvpath+'/'+self.code+'_'+datetime.today().date()+'.csv'
+                    filename=self.csvpath+'/'+self.code+'_'+datetime.today().date().isoformat()+'.csv'
                 else:
                     filename=self.csvpath+'/'+self.code+'_'+(datetime.today().date()- timedelta(days=1)).isoformat()+'.csv'
 
